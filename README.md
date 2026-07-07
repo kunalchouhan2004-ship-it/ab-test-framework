@@ -39,24 +39,25 @@ accepts any uploaded CSV and returns results instantly.
 
 ## 🗂️ Project Structure
 
+```
 ab-test-framework/
-├── ab_test_framework.py ← Reusable statistical testing framework
-├── app.py ← Interactive Streamlit app
-├── cookie_cats.csv ← Raw dataset
-├── requirements.txt ← Python dependencies
+├── ab_test_framework.py        ← Reusable statistical testing framework
+├── app.py                      ← Interactive Streamlit app
+├── cookie_cats.csv             ← Raw dataset
+├── requirements.txt            ← Python dependencies
 ├── data/
-│ ├── cookie_cats_cleaned.csv ← Cleaned dataset (outlier removed)
-│ ├── phase4_results_summary.csv
-│ ├── phase4_interpretation.txt
-│ └── phase4_recommendation.txt
+│   ├── cookie_cats_cleaned.csv ← Cleaned dataset (outlier removed)
+│   ├── phase4_results_summary.csv
+│   ├── phase4_interpretation.txt
+│   └── phase4_recommendation.txt
 ├── notebooks/
-│ ├── phase1_data_cleaning.ipynb
-│ ├── phase2_eda_test_selection.ipynb
-│ ├── phase3_framework_validation.ipynb
-│ └── phase4_interpretation_recommendation.ipynb
+│   ├── phase1_data_cleaning.ipynb
+│   ├── phase2_eda_test_selection.ipynb
+│   ├── phase3_framework_validation.ipynb
+│   └── phase4_interpretation_recommendation.ipynb
 └── sql/
-└── phase1_data_quality_checks.sql
-
+    └── phase1_data_quality_checks.sql
+```
 
 ---
 
@@ -165,23 +166,24 @@ ab-test-framework/
 
 ## 🔧 Framework — Test Selection Logic
 
+```
 Outcome column
 │
 ├── bool / categorical dtype → Chi-Square Test
-│ Effect size: Cramer's V
+│                               Effect size: Cramer's V
 │
 └── numeric (continuous)
-│
-├── Normality check
-│ ├── n ≤ 5,000 → Shapiro-Wilk
-│ └── n > 5,000 → D'Agostino K-squared
-│
-├── Both groups normal → Independent Samples T-Test
-│ Effect size: Cohen's d
-│
-└── Either non-normal → Mann-Whitney U Test
-Effect size: Rank-biserial r
-
+    │
+    ├── Normality check
+    │   ├── n ≤ 5,000 → Shapiro-Wilk
+    │   └── n > 5,000 → D'Agostino K-squared
+    │
+    ├── Both groups normal → Independent Samples T-Test
+    │                         Effect size: Cohen's d
+    │
+    └── Either non-normal → Mann-Whitney U Test
+                             Effect size: Rank-biserial r
+```
 
 
 ---
