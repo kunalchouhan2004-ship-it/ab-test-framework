@@ -1,0 +1,85 @@
+
+╔══════════════════════════════════════════════════════════════════╗
+║           PHASE 1 — DATA QUALITY REPORT                         ║
+║           Cookie Cats A/B Test Dataset                          ║
+╚══════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. DATASET OVERVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Source          : Cookie Cats A/B Test (Kaggle)
+  Raw row count   : 90,189
+  Columns         : userid, version, sum_gamerounds, 
+                    retention_1, retention_7
+  Experiment      : Gate position moved from level 30 (control) 
+                    to level 40 (treatment)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. DATA QUALITY CHECKS (via SQL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Duplicate userids   : 0 — each player appears exactly once
+  Null values         : 0 — no missing data in any column
+
+  Group sizes:
+    gate_30 (control)   : 44,700 players (49.56%)
+    gate_40 (treatment) : 45,489 players (50.44%)
+    Assessment          : Well balanced — less than 1% difference
+                          Randomization appears sound
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. OUTLIER INVESTIGATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Player userid 6390605 (gate_30) played 49,854 rounds
+
+  Context:
+    2nd highest player  : 2,961 rounds  (16.8x lower)
+    99th percentile     : 493 rounds    (101x lower)
+    Mean                : 51.87 rounds  (961x lower)
+    Median              : 16.0 rounds   (3,116x lower)
+
+  Decision: REMOVED (1 row deleted)
+
+  Reasoning:
+    - 49,854 rounds in a 7-day window implies continuous 
+      non-stop play — not humanly possible
+    - Gap between rank 1 and rank 2 is 16.8x — not a 
+      gradual tail, a single isolated anomaly
+    - Almost certainly a bot or data logging error
+    - Removal is cleaner than capping given it is a 
+      single isolated case
+
+  Effect of removal:
+    Mean before  : 51.87  →  Mean after  : 51.32
+    Median before: 16.0   →  Median after: 16.0
+    Median unchanged — outlier was only distorting the mean
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. EARLY OBSERVATIONS (pre-analysis)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Metric              gate_30    gate_40    Difference
+  ──────────────────────────────────────────────────
+  Avg game rounds     51.87      51.30      gate_30 higher
+  1-day retention     44.82%     44.23%     gate_30 higher (+0.59pp)
+  7-day retention     19.02%     18.20%     gate_30 higher (+0.82pp)
+
+  Note: gate_30 appears better on all metrics
+        7-day gap is larger than 1-day gap
+        Statistical significance not yet determined
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. DISTRIBUTION SHAPE (carry forward to Phase 2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  sum_gamerounds is heavily right-skewed
+  Median (16) is far below mean (51.32)
+  Most players play very few rounds with a long tail
+  This will likely rule out parametric tests for 
+  sum_gamerounds in Phase 2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. OUTPUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Cleaned dataset : data/cookie_cats_cleaned.csv
+  Rows            : 90,188
+  SQLite database : data/cookie_cats.db
+  Visuals saved   : data/histogram_gamerounds.png
+                    data/retention_rates_by_group.png

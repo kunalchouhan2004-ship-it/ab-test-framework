@@ -1,0 +1,4 @@
+Outcome,Test Used,Statistic,p-value,Significant?,Effect Size,Effect Type,Effect Magnitude,Practically Meaningful?
+sum_gamerounds,mann_whitney_u,1024285761.5,0.050892,No,-0.007504,rank_biserial,negligible,No
+retention_1,chi_square,3.1698,0.07501,No,0.005928,cramers_v,negligible,No
+retention_7,chi_square,9.9153,0.001639,Yes,0.010485,cramers_v,negligible,No

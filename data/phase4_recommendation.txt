@@ -1,0 +1,103 @@
+
+╔══════════════════════════════════════════════════════════════════════╗
+║              FINAL BUSINESS RECOMMENDATION & LIMITATIONS             ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL RECOMMENDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Do NOT move the gate to level 40.
+
+  Keep the gate at level 30 (gate_30).
+
+  Full recommendation statement:
+  "Based on a properly randomized experiment of 90,188 players,
+  moving the gate from level 30 to level 40 shows no improvement
+  in player engagement or 1-day retention, and produces a small
+  but statistically significant reduction in 7-day retention
+  (19.02% vs 18.20%, p=0.0016). While the effect is modest in
+  percentage-point terms, 7-day retention is the most meaningful
+  long-term health metric available in this dataset, and gate_30
+  outperforms gate_40 on every measured outcome. Moving the gate
+  is not recommended."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHY THIS RECOMMENDATION IS DEFENSIBLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. This was a randomized experiment — causal inference is valid.
+     Unlike observational studies, we do not need to worry about
+     confounding variables. The only difference between groups was
+     the gate position.
+
+  2. gate_30 won on all three measured outcomes — engagement,
+     1-day retention, and 7-day retention. No metric favored
+     gate_40. The direction of evidence is completely consistent.
+
+  3. The only significant result (retention_7) favors gate_30,
+     and the confidence interval for the difference does not
+     include zero — the direction is reliable, not a fluke.
+
+  4. There is no upside to moving the gate. gate_40 does not
+     improve any outcome. A change with no measurable benefit
+     and a measurable cost (lower 7-day retention) should not
+     be implemented.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LIMITATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. NOVELTY EFFECT NOT ACCOUNTED FOR
+     Players in the treatment group (gate_40) encountered a
+     different experience than they may have expected. Some
+     behavior change could reflect novelty — players exploring
+     further simply because something changed — rather than a
+     genuine response to the gate position. This effect typically
+     fades over time and is not captured in a snapshot experiment.
+
+  2. NO PLAYER SEGMENTATION
+     The analysis treats all players as one group. In reality,
+     new players and experienced players may respond very
+     differently to gate position. A player hitting a gate at
+     level 30 on their first session is a different situation
+     from a returning player hitting it. Segmented analysis
+     could reveal effects hidden in the aggregate.
+
+  3. SNAPSHOT, NOT LONGITUDINAL
+     Retention was measured at day 1 and day 7 only. We do not
+     know whether gate position affects retention at day 14,
+     day 30, or beyond. The long-term trajectory of player
+     behavior under each condition is unknown.
+
+  4. NO MONETIZATION DATA
+     The dataset contains no revenue or purchase data. It is
+     possible that gate_40 produces higher monetization even
+     with slightly lower retention — players who reach level 40
+     may be more engaged spenders. This analysis cannot address
+     that question.
+
+  5. EFFECT SIZE IS SMALL
+     Even the significant finding (retention_7) has a negligible
+     effect size (Cramer's V = 0.0105). While the recommendation
+     is clear given consistent direction of evidence, no single
+     outcome showed a large or even medium effect. The business
+     impact of keeping gate_30 is real but modest.
+
+  6. EXTERNAL VALIDITY
+     This experiment reflects one game, one time period, and one
+     player population. Results may not generalize to different
+     games, different gate levels (e.g., gate_20 vs gate_50),
+     or future player cohorts with different demographics or
+     gaming habits.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INTERVIEW HEADLINE (one sentence)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "In a randomized experiment of 90,000 players, I found that
+  moving Cookie Cats' gate from level 30 to level 40 produced
+  no improvement in engagement or short-term retention, and
+  caused a statistically significant reduction in 7-day retention
+  — leading to a clear recommendation to keep the gate at level 30,
+  supported by a reusable statistical testing framework I built
+  to automate test selection and effect size calculation."

@@ -1,0 +1,104 @@
+
+╔══════════════════════════════════════════════════════════════════╗
+║           PHASE 2 — STATISTICAL RESULTS & INTERPRETATION         ║
+║           Cookie Cats A/B Test                                   ║
+╚══════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXPERIMENT SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Control   : gate_30 — gate appears at level 30 (n = 44,699)
+  Treatment : gate_40 — gate appears at level 40 (n = 45,489)
+  Question  : Does moving the gate from level 30 to level 40
+              affect player engagement and retention?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEST SELECTION RATIONALE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  sum_gamerounds (continuous):
+    - Shapiro-Wilk W = 0.49/0.52, p ≈ 10^-80 → not normal
+    - Histograms and Q-Q plots confirm heavy right skew
+    - Decision: Mann-Whitney U test (non-parametric)
+    - Reason: does not assume normality, compares rank
+              distributions rather than means
+
+  retention_1, retention_7 (binary):
+    - Outcomes are categorical (retained: yes/no)
+    - Data structured as counts in a 2x2 table
+    - Decision: Chi-square test
+    - Reason: tests whether retention outcome is independent
+              of group assignment
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTCOME 1: sum_gamerounds (Engagement)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Test            : Mann-Whitney U
+  U statistic     : 1,024,285,761.50
+  p-value         : 0.0509
+  Significant?    : No (just above alpha = 0.05)
+  Effect size     : Rank-biserial r = -0.0075 (Negligible)
+  gate_30 median  : 17.0 rounds
+  gate_40 median  : 16.0 rounds
+
+  Interpretation:
+  Moving the gate from level 30 to level 40 produced no
+  statistically significant difference in how many game
+  rounds players played (p = 0.051). Even had it crossed
+  the significance threshold, the effect size is negligible
+  (r = -0.0075). The gate position does not meaningfully
+  affect player engagement as measured by rounds played.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTCOME 2: retention_1 (1-Day Retention)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Test            : Chi-Square
+  Chi2 statistic  : 3.1698
+  p-value         : 0.0750
+  Significant?    : No (above alpha = 0.05)
+  Effect size     : Cramer's V = 0.0059 (Negligible)
+  gate_30 rate    : 44.82%
+  gate_40 rate    : 44.23%
+  Difference      : 0.59 percentage points
+
+  Interpretation:
+  There is no statistically significant difference in
+  1-day retention between groups (p = 0.075). The
+  0.59 percentage point difference in favor of gate_30
+  is well within the range of random chance. Moving the
+  gate did not meaningfully affect whether players
+  returned the next day.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTCOME 3: retention_7 (7-Day Retention)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Test            : Chi-Square
+  Chi2 statistic  : 9.9153
+  p-value         : 0.0016
+  Significant?    : Yes (well below alpha = 0.05)
+  Effect size     : Cramer's V = 0.0105 (Negligible)
+  gate_30 rate    : 19.02%
+  gate_40 rate    : 18.20%
+  Difference      : 0.82 percentage points
+
+  Interpretation:
+  7-day retention is statistically significantly higher
+  for gate_30 than gate_40 (p = 0.0016). However the
+  effect size is negligible (Cramer's V = 0.0105) and
+  the absolute difference is only 0.82 percentage points.
+  While this result is real and not due to chance, its
+  practical importance is limited. At scale (90,000+
+  players), even tiny differences become detectable —
+  this is a textbook example of why effect size must
+  accompany significance testing.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OVERALL RECOMMENDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  The evidence modestly favors keeping the gate at level 30.
+  It is the only condition that shows a statistically
+  significant advantage (7-day retention), and gate_30
+  outperforms gate_40 on all three metrics. However the
+  effects are small — this is not a dramatic win, and
+  business context (e.g., monetization, player complaints
+  about the gate) should factor into the final decision
+  alongside these statistical results.
